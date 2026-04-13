@@ -1,10 +1,3 @@
-"""
-Базовый классификатор (Baseline) на основе стилометрии
-Лабораторная работа №3 / НИР (Шаги 4, 6, 7)
-
-Запуск: python src/baseline_pipeline.py
-"""
-
 import os
 import warnings
 import pandas as pd
@@ -26,8 +19,8 @@ TEST_PATH  = 'data/04_stylo_features/test.parquet'
 MODEL_DIR  = 'models'
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# ПУНКТ 6: Отбор признаков (Feature Selection)
-# Исключаем 'sentence_count', так как EDA показал корреляцию 0.92 с 'word_count'
+# Отбор признаков 
+# Исключаем sentence_count, так как EDA показал корреляцию 0.92 с word_count (позже может быть вернем)
 SELECTED_FEATURES =[
     'avg_word_len', 
     'avg_sentence_len', 
@@ -43,7 +36,7 @@ RANDOM_SEED = 42
 
 # ─────────────────────────── Кастомные Трансформеры ──────────────────────────
 
-# ПУНКТ 4: Обработка выбросов (Винзоризация) без утечки данных!
+# Обработка выбросов (Винзоризация) без утечки данных!
 class Winsorizer(BaseEstimator, TransformerMixin):
     """
     Обрезает аномальные значения по заданным квантилям (например, 99%).
@@ -71,7 +64,7 @@ def main():
     df_train = pd.read_parquet(TRAIN_PATH)
     df_test = pd.read_parquet(TEST_PATH)
     
-    # Отделяем признаки (X) от целевой переменной (y)
+    # Отделяем признаки от целевой переменной
     X_train = df_train[SELECTED_FEATURES]
     y_train = df_train[TARGET_COL]
     
@@ -82,13 +75,13 @@ def main():
     print(f"📊 Размер Test:  {len(X_test):,} строк")
     print(f"🔍 Используемые признаки ({len(SELECTED_FEATURES)} шт.): {SELECTED_FEATURES}")
 
-    # ПУНКТ 7: Разработка воспроизводимого конвейера (Pipeline)
+    # Разработка воспроизводимого пайплайна
     print("\n⚙️ Сборка ML-конвейера (Pipeline)...")
     
-    # 1. Блок предобработки (только для выбранных числовых колонок)
+    # Блок предобработки (только для выбранных числовых колонок)
     numeric_transformer = Pipeline(steps=[
-        ('winsorizer', Winsorizer(lower_quantile=0.0, upper_quantile=0.99)), # Убираем выбросы
-        ('scaler', StandardScaler())                                         # Масштабируем (mean=0, std=1)
+        ('winsorizer', Winsorizer(lower_quantile=0.0, upper_quantile=0.99)), # Винзоризация
+        ('scaler', StandardScaler())                                         # Масштабируем 
     ])
     
     # Обертка ColumnTransformer гарантирует, что мы применяем шаги только к нужным колонкам
@@ -98,25 +91,25 @@ def main():
         ]
     )
     
-    # 2. Финальный пайплайн: Предобработка + Классификатор
+    # Финальный пайплайн: Предобработка + Классификатор
     # Используем Логистическую Регрессию как быстрый интерпретируемый Baseline
-    # class_weight='balanced' решает проблему экстремального дисбаланса (Пункт 4/5)
+    # class_weight='balanced' решает проблему экстремального дисбаланса 
     pipeline = Pipeline(steps=[
         ('preprocessor', preprocessor),
         ('classifier', LogisticRegression(
             class_weight='balanced', # Борьба с дисбалансом (1.3k GPT-4 vs 535k Human)
-            random_state=RANDOM_SEED, # Фиксация seed для воспроизводимости (Требование №3)
+            random_state=RANDOM_SEED, # Фиксация seed для воспроизводимости 
             max_iter=1000,
             n_jobs=-1 # Используем все ядра процессора
         ))
     ])
 
     print("🧠 Обучение конвейера на Train-выборке (fit)...")
-    # ВАЖНО: Скейлер и Винзоризатор вычислят параметры ТОЛЬКО здесь!
+    # Скейлер и Винзоризатор вычислят параметры ТОЛЬКО здесь!
     pipeline.fit(X_train, y_train)
 
     print("🔮 Применение конвейера к Test-выборке (predict)...")
-    # ВАЖНО: Скейлер и Винзоризатор применят сохраненные параметры, протечки нет!
+    # Скейлер и Винзоризатор применят сохраненные параметры, протечки нет!
     y_pred = pipeline.predict(X_test)
 
     # ─────────────────────────── Оценка качества ─────────────────────────────
@@ -132,7 +125,7 @@ def main():
     print("\nДетальный отчет по классам:")
     print(classification_report(y_test, y_pred))
 
-    # Сериализация конвейера (Пункт 7: "позволяющий зафиксировать процесс")
+    # Сериализация конвейера 
     model_path = os.path.join(MODEL_DIR, 'stylo_baseline_pipeline.pkl')
     joblib.dump(pipeline, model_path)
     print(f"\n💾 Обученный конвейер сохранен (сериализован) в: {model_path}")

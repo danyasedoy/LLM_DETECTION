@@ -1,10 +1,3 @@
-"""
-EDA стилометрических признаков
-Лабораторная работа №3 / НИР (Шаг 2 и 4)
-
-Запуск из корня: python src/eda/stylo_eda.py
-"""
-
 import os
 import gc
 import warnings
