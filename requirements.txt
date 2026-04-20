@@ -1,0 +1,14 @@
+pandas
+pyarrow
+datasets
+scikit-learn
+catboost
+transformers
+torch
+nltk
+spacy
+matplotlib
+seaborn
+missingno
+ijson
+zstandard
