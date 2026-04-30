@@ -1,9 +1,4 @@
-﻿"""
-Анализ ошибок модели (Confusion Matrix)
-Помогает понять, где именно "застревает" алгоритм.
-"""
-
-import os
+﻿import os
 import joblib
 import pandas as pd
 import numpy as np
@@ -17,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 MODEL_PATH = 'models/final_v3/Ultimate_Hybrid_V3.pkl'
-TEST_PATH  = 'data/05_embeddings_v3/test.parquet'
+TEST_PATH  = 'data/05_embeddings_v4/test.parquet'
 OUTPUT_DIR = 'src/analysis/output/interpretation'
 
 # Кастомный трансформер (нужен для загрузки pickle)
@@ -45,8 +40,8 @@ def main():
     df_test = pd.read_parquet(TEST_PATH)
     df_test, bert_cols = unpack_embeddings(df_test)
     
-    stylo_features =['avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-                     'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    stylo_features =['avg_word_len', 'avg_sentence_len', 'mattr', 'punct_ratio', 
+                     'upper_ratio', 'digit_ratio', 'stopword_ratio',
                      'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio']
     
     X_test = df_test[stylo_features + bert_cols]

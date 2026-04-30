@@ -1,10 +1,3 @@
-"""
-Финальное обучение Гибридной Модели V3
-Лабораторная работа №4 (Итоговый пайплайн с лучшими гиперпараметрами)
-
-Запуск: python src/train_final.py
-"""
-
 import os
 import gc
 import json
@@ -23,14 +16,14 @@ from catboost import CatBoostClassifier
 warnings.filterwarnings('ignore')
 
 # ─────────────────────────── Конфигурация ────────────────────────────────────
-TRAIN_PATH = 'data/05_embeddings_v3/train.parquet'
-TEST_PATH  = 'data/05_embeddings_v3/test.parquet' # Строго TEST!
+TRAIN_PATH = 'data/05_embeddings_v4/train.parquet'
+TEST_PATH  = 'data/05_embeddings_v4/test.parquet' # Строго TEST!
 PARAMS_PATH= 'models/final_v3/best_hyperparams.json'
 MODEL_DIR  = 'models/final_v3'
 
 STYLO_FEATURES =[
-    'avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-    'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    'avg_word_len', 'avg_sentence_len', 'mattr', 'punct_ratio', 
+    'upper_ratio', 'digit_ratio', 'stopword_ratio',
     'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio'
 ]
 
@@ -69,7 +62,7 @@ def main():
     
     # Добавляем базовые параметры, которые мы не тюнили
     best_params.update({
-        'iterations': 4000,           # Неглубокие деревья (depth=5) нужно строить дольше!
+        'iterations': 4000,          
         'task_type': 'GPU',
         'auto_class_weights': 'SqrtBalanced',
         'random_seed': 42,

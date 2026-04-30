@@ -26,8 +26,8 @@ nltk.download('punkt_tab', quiet=True)
 STOP_WORDS = set(stopwords.words('russian'))
 MORPH = pymorphy3.MorphAnalyzer()
 STYLO_FEATURES =[
-    'avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-    'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    'avg_word_len', 'avg_sentence_len', 'mattr', 'punct_ratio', 
+    'upper_ratio', 'digit_ratio', 'stopword_ratio', 
     'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio'
 ]
 

@@ -9,7 +9,7 @@ import pymorphy3
 
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
-nltk.download('punkt_tab', quiet=True) # <-- Вот эта строчка!
+nltk.download('punkt_tab', quiet=True) 
 
 class AdvancedStylometryExtractor:
     def __init__(self):
@@ -34,7 +34,7 @@ class AdvancedStylometryExtractor:
         stop_words_count = sum(1 for w in words if w in self.stop_words)
         total_word_length = sum(len(w) for w in words)
 
-        # МОРФОЛОГИЯ (POS-теггинг)
+        # МОРФОЛОГИЯ 
         nouns = verbs = adjs = conjs = 0
         for w in words:
             pos = self.morph.parse(w)[0].tag.POS
@@ -52,7 +52,6 @@ class AdvancedStylometryExtractor:
             'digit_ratio': digit_count / chars_count,
             'stopword_ratio': stop_words_count / word_count,
             'word_count': word_count,
-            # Новые фичи (доли от общего числа слов):
             'noun_ratio': nouns / word_count,
             'verb_ratio': verbs / word_count,
             'adj_ratio': adjs / word_count,

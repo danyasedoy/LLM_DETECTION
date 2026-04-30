@@ -1,10 +1,3 @@
-"""
-Байесовская оптимизация гиперпараметров (Optuna)
-Лабораторная работа №4 (Пункт 2: Настройка гиперпараметров)
-
-Запуск: python src/tune_hyperparams.py
-"""
-
 import os
 import gc
 import json
@@ -23,14 +16,14 @@ from catboost import CatBoostClassifier
 warnings.filterwarnings('ignore')
 
 # ─────────────────────────── Конфигурация ────────────────────────────────────
-TRAIN_PATH = 'data/05_embeddings_v3/train.parquet'
-VAL_PATH   = 'data/05_embeddings_v3/val.parquet'  # Для тюнинга используем VAL, а не TEST!
+TRAIN_PATH = 'data/05_embeddings_v4/train.parquet'
+VAL_PATH   = 'data/05_embeddings_v4/val.parquet'  # Для тюнинга используем VAL, а не TEST!
 OUTPUT_DIR = 'models/final_v3'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 STYLO_FEATURES =[
-    'avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-    'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    'avg_word_len', 'avg_sentence_len', 'mattr', 'punct_ratio', 
+    'upper_ratio', 'digit_ratio', 'stopword_ratio',
     'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio'
 ]
 

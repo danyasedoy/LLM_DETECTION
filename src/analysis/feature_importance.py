@@ -1,11 +1,4 @@
-﻿"""
-Анализ важности признаков (Feature Importance)
-Лабораторная работа №3 / НИР (Интерпретация результатов)
-
-Запуск: python src/feature_importance.py
-"""
-
-import os
+﻿import os
 import joblib
 import pandas as pd
 import numpy as np
@@ -24,8 +17,8 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Наши 12 стилометрических признаков
 STYLO_FEATURES =[
-    'avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-    'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    'avg_word_len', 'avg_sentence_len', 'mattr', 'punct_ratio', 
+    'upper_ratio', 'digit_ratio', 'stopword_ratio',
     'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio'
 ]
 

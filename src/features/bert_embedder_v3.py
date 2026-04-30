@@ -11,7 +11,7 @@ OUTPUT_DIR = 'data/05_embeddings_v3'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 MODEL_NAME = 'DeepPavlov/rubert-base-cased'
-BATCH_SIZE = 64 # Уменьшили батч для тяжелой модели
+BATCH_SIZE = 64 
 MAX_LENGTH = 512
 
 def get_embeddings(text_batch, tokenizer, model, device):

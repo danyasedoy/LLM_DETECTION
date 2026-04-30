@@ -22,7 +22,7 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 # Теперь у нас 12 фичей!
 STYLO_FEATURES =[
     'avg_word_len', 'avg_sentence_len', 'ttr', 'punct_ratio', 
-    'upper_ratio', 'digit_ratio', 'stopword_ratio', 'word_count',
+    'upper_ratio', 'digit_ratio', 'stopword_ratio', 
     'noun_ratio', 'verb_ratio', 'adj_ratio', 'conj_ratio'
 ]
 
@@ -62,8 +62,7 @@ def main():
     df_test, _ = unpack_embeddings(df_test)
     
     y_train, y_test = df_train['label'], df_test['label']
-    
-    # GPU мощь!
+  
     cb_params = {
         'iterations': 3000,
         'learning_rate': 0.05,
